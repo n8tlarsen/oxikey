@@ -7,14 +7,66 @@ use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch
 // use panic_itm as _; // logs messages over ITM; requires ITM support
 // use panic_semihosting as _; // logs messages to the host stderr; requires a debugger
 
-use cortex_m::asm;
-use cortex_m_rt::entry;
+#[rtic::app(device = atsamd21j, dispatchers = [AC,DAC])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use cortex_m::asm;
 
-#[entry]
-fn main() -> ! {
-    asm::nop(); // To not have main optimize to abort in release mode, remove when you add code
+    #[shared]
+    struct Shared {}
 
-    loop {
-        // your code goes here
+    #[local]
+    struct Local {
+        local_to_foo: i32,
+        local_to_bar: i32,
+        local_to_idle: i32,
+    }
+
+    #[init]
+    fn init(_: init::Context) -> (Shared, Local, init::Monotonics) {
+        foo::spawn().unwrap();
+        bar::spawn().unwrap();
+
+        (
+            Shared {},
+            Local {
+                local_to_foo: 0,
+                local_to_bar: 0,
+                local_to_idle: 0,
+            },
+            init::Monotonics(),
+        )
+    }
+
+    #[idle(local = [local_to_idle])]
+    fn idle(cx: idle::Context) -> !{
+        let local_to_idle = cx.local.local_to_idle;
+        *local_to_idle += 1;
+        hprintln!("idle: local_to_idle = {}", local_to_idle).unwrap();
+        loop {
+            cortex_m::asm::nop();
+        }
+    }
+
+    #[task(local = [local_to_foo])]
+    fn foo(cx: foo::Context) {
+        let local_to_foo = cx.local.local_to_foo;
+        *local_to_foo += 1;
+
+        // error: no `local_to_bar` field in `foo::LocalResources`
+        // cx.local.local_to_bar += 1;
+
+        hprintln!("foo: local_to_foo = {}", local_to_foo).unwrap();
+    }
+
+    #[task(local = [local_to_bar])]
+    fn bar(cx: bar::Context) {
+        let local_to_bar = cx.local.local_to_bar;
+        *local_to_bar += 1;
+
+        // error: no `local_to_foo` field in `bar::LocalResources`
+        // cx.local.local_to_foo += 1;
+
+        hprintln!("bar: local_to_bar = {}", local_to_bar).unwrap();
     }
 }
