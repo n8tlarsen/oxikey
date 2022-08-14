@@ -7,10 +7,12 @@ use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch
 // use panic_itm as _; // logs messages over ITM; requires ITM support
 // use panic_semihosting as _; // logs messages to the host stderr; requires a debugger
 
-#[rtic::app(device = atsamd21j, dispatchers = [AC,DAC])]
+pub mod setup;
+
+#[rtic::app(device = atsamd21j, dispatchers = [ADC,AC,DAC])]
 mod app {
-    use cortex_m_semihosting::{debug, hprintln};
-    use cortex_m::asm;
+    use cortex_m_semihosting::{hprintln};
+    use crate::setup;
 
     #[shared]
     struct Shared {}
@@ -23,10 +25,11 @@ mod app {
     }
 
     #[init]
-    fn init(_: init::Context) -> (Shared, Local, init::Monotonics) {
+    fn init(cx: init::Context) -> (Shared, Local, init::Monotonics) {
         foo::spawn().unwrap();
         bar::spawn().unwrap();
-
+        setup::set_system(&cx.device.SYSCTRL);
+        setup::set_clocks(&cx.device.GCLK);
         (
             Shared {},
             Local {
@@ -52,10 +55,6 @@ mod app {
     fn foo(cx: foo::Context) {
         let local_to_foo = cx.local.local_to_foo;
         *local_to_foo += 1;
-
-        // error: no `local_to_bar` field in `foo::LocalResources`
-        // cx.local.local_to_bar += 1;
-
         hprintln!("foo: local_to_foo = {}", local_to_foo).unwrap();
     }
 
@@ -63,10 +62,6 @@ mod app {
     fn bar(cx: bar::Context) {
         let local_to_bar = cx.local.local_to_bar;
         *local_to_bar += 1;
-
-        // error: no `local_to_foo` field in `bar::LocalResources`
-        // cx.local.local_to_foo += 1;
-
         hprintln!("bar: local_to_bar = {}", local_to_bar).unwrap();
     }
 }
