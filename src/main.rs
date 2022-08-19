@@ -28,8 +28,7 @@ mod app {
     fn init(cx: init::Context) -> (Shared, Local, init::Monotonics) {
         foo::spawn().unwrap();
         bar::spawn().unwrap();
-        setup::set_system(&cx.device.SYSCTRL);
-        setup::set_clocks(&cx.device.GCLK);
+        setup::set_clocks(&cx.device);
         (
             Shared {},
             Local {
