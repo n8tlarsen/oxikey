@@ -6,6 +6,7 @@ name = "oxykey"
 version = "0.1.0"
 
 [dependencies]
+bitfield = "^0.13.2"    
 cortex-m = "0.7.5"
 cortex-m-rt = "0.7.1"
 cortex-m-semihosting = "0.3.0"
