@@ -11,7 +11,9 @@ pub mod setup;
 
 #[rtic::app(device = atsamd21j, dispatchers = [ADC,AC,DAC])]
 mod app {
+    #[cfg(debug_assertions)]
     use cortex_m_semihosting::{hprintln};
+    
     use crate::setup;
 
     #[shared]
@@ -44,6 +46,7 @@ mod app {
     fn idle(cx: idle::Context) -> !{
         let local_to_idle = cx.local.local_to_idle;
         *local_to_idle += 1;
+        #[cfg(debug_assertions)]
         hprintln!("idle: local_to_idle = {}", local_to_idle).unwrap();
         loop {
             cortex_m::asm::nop();
@@ -54,6 +57,7 @@ mod app {
     fn foo(cx: foo::Context) {
         let local_to_foo = cx.local.local_to_foo;
         *local_to_foo += 1;
+        #[cfg(debug_assertions)]
         hprintln!("foo: local_to_foo = {}", local_to_foo).unwrap();
     }
 
@@ -61,6 +65,7 @@ mod app {
     fn bar(cx: bar::Context) {
         let local_to_bar = cx.local.local_to_bar;
         *local_to_bar += 1;
+        #[cfg(debug_assertions)]
         hprintln!("bar: local_to_bar = {}", local_to_bar).unwrap();
     }
 }

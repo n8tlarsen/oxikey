@@ -1,4 +1,3 @@
-use cortex_m_semihosting::hprintln;
 use bitfield::bitfield;
 
 bitfield!{
@@ -24,7 +23,6 @@ pub fn setup(dev: &atsamd21j::Peripherals)
     unsafe
     {
         let cal = & *(0x0080_6020_u32 as *const Calibration);
-        hprintln!("dfll48m calibration value: {}", cal.dfll48m_coarse_cal()).unwrap();
         dev.SYSCTRL.dfllctrl.write(|w| w.bits(0x0001_u16));
         while dev.SYSCTRL.pclksr.read().dfllrdy().bit_is_clear() {}
         dev.SYSCTRL.dfllval.write(|w| w.coarse().bits(cal.dfll48m_coarse_cal() as u8));
