@@ -18,75 +18,18 @@ bitfield!{
         reserved4,          _ : 127, 74;
 }
 
-pub fn setup(dev: &atsamd21j::Peripherals)
+pub fn blink(pm: &atsamd21j::PM, port: &atsamd21j::PORT, tcc0: &atsamd21j::TCC0)
 {
-    unsafe
-    {
-        let cal = & *(0x0080_6020_u32 as *const Calibration);
-        dev.SYSCTRL.dfllctrl.write(|w| w.bits(0x0001_u16));
-        while dev.SYSCTRL.pclksr.read().dfllrdy().bit_is_clear() {}
-        dev.SYSCTRL.dfllval.write(|w| w.coarse().bits(cal.dfll48m_coarse_cal() as u8));
-        while dev.SYSCTRL.pclksr.read().dfllrdy().bit_is_clear() {}
-        dev.SYSCTRL.dfllmul.write(|w| w.mul().bits(0xBB80_u16));
-        while dev.SYSCTRL.pclksr.read().dfllrdy().bit_is_clear() {}
-        dev.SYSCTRL.dfllctrl.write(|w| 
-        {
-            w.usbcrm().set_bit();
-            w.ccdis().set_bit();
-            w.mode().set_bit();
-            w.enable().set_bit()
-        });
-        dev.GCLK.gendiv.write(|w| w.bits(1));
-        dev.GCLK.genctrl.write(|w|
-        {
-            w.id().bits(1);
-            w.src().dfll48m();
-            w.genen().set_bit();
-            w.idc().clear_bit();
-            w.oov().clear_bit();
-            w.oe().clear_bit();
-            w.divsel().clear_bit();
-            w.runstdby().set_bit()
-        }); 
-    }
-    dev.GCLK.clkctrl.write(|w| 
-    {
-        w.id().usb();
-        w.gen().gclk1();
-        w.clken().set_bit();
-        w.wrtlock().set_bit()
-    });
-    dev.GCLK.clkctrl.write(|w| 
-    {
-        w.id().tcc0_tcc1();
-        w.gen().gclk0();
-        w.clken().set_bit();
-        w.wrtlock().set_bit()
-    });
-    dev.GCLK.clkctrl.write(|w| 
-    {
-        w.id().tcc2_tc3();
-        w.gen().gclk0();
-        w.clken().set_bit();
-        w.wrtlock().set_bit()
-    });
-    dev.GCLK.clkctrl.write(|w| 
-    {
-        w.id().eic();
-        w.gen().gclk0();
-        w.clken().set_bit();
-        w.wrtlock().set_bit()
-    });
-    dev.PM.apbcmask.write(|w| w.tcc0_().set_bit());
-    unsafe { dev.PORT.dirset1.write(|w| w.bits(0x4000_0000_u32)); }
-    dev.PORT.pmux1_[15].write(|w| w.pmuxe().e());
-    dev.PORT.pincfg1_[30].write(|w| w.pmuxen().set_bit());
-    unsafe{ dev.TCC0.per().write(|w| w.per().bits(0x0008_0000_u32)); }
+    // start timer in PWM mode to flash LED
+    pm.apbcmask.write(|w| w.tcc0_().set_bit());
+    unsafe { port.dirset1.write(|w| w.bits(0x4000_0000_u32)); }
+    port.pmux1_[15].write(|w| w.pmuxe().e());
+    port.pincfg1_[30].write(|w| w.pmuxen().set_bit());
+    unsafe{ tcc0.per().write(|w| w.per().bits(0x0008_0000_u32)); }
     // dev.TCC0.intenset.write(|w| w.ovf().set_bit());
-    dev.TCC0.ctrla.write(|w|
+    tcc0.ctrla.write(|w|
     {
         w.enable().set_bit();
         w.runstdby().set_bit()
     });
 }
-

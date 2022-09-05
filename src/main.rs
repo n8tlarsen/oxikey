@@ -14,6 +14,9 @@ mod app {
     #[cfg(debug_assertions)]
     use cortex_m_semihosting::{hprintln};
     
+    use atsamd_hal::thumbv6m::{clock};
+    use atsamd21j::gclk::clkctrl::GEN_A::GCLK1;
+    use atsamd21j::gclk::genctrl::SRC_A::DFLL48M;
     use crate::setup;
 
     #[shared]
@@ -27,10 +30,14 @@ mod app {
     }
 
     #[init]
-    fn init(cx: init::Context) -> (Shared, Local, init::Monotonics) {
+    fn init(mut cx: init::Context) -> (Shared, Local, init::Monotonics) {
         foo::spawn().unwrap();
         bar::spawn().unwrap();
-        setup::setup(&cx.device);
+        let mut clock = clock::GenericClockController::with_internal_8mhz(
+            cx.device.GCLK, &mut cx.device.PM, &mut cx.device.SYSCTRL, &mut cx.device.NVMCTRL);
+        let clk1 = clock.configure_gclk_divider_and_source(GCLK1,1,DFLL48M,false).unwrap();
+        clock.tcc0_tcc1(&clk1);
+        setup::blink(&cx.device.PM, &cx.device.PORT, &cx.device.TCC0);
         (
             Shared {},
             Local {
