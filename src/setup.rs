@@ -25,7 +25,7 @@ pub fn blink(pm: &atsamd21j::PM, port: &atsamd21j::PORT, tcc0: &atsamd21j::TCC0)
     unsafe { port.dirset1.write(|w| w.bits(0x4000_0000_u32)); }
     port.pmux1_[15].write(|w| w.pmuxe().e());
     port.pincfg1_[30].write(|w| w.pmuxen().set_bit());
-    unsafe{ tcc0.per().write(|w| w.per().bits(0x0008_0000_u32)); }
+    unsafe{ tcc0.per().write(|w| w.per().bits(48000000_u32)); }
     // dev.TCC0.intenset.write(|w| w.ovf().set_bit());
     tcc0.ctrla.write(|w|
     {
