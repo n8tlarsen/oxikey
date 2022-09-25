@@ -13,36 +13,73 @@ pub mod setup;
 mod app {
     #[cfg(debug_assertions)]
     use cortex_m_semihosting::{hprintln};
-    
-    use atsamd_hal::thumbv6m::{clock};
+
+    use atsamd_hal as hal;
+    use hal::thumbv6m::{clock,usb::UsbBus};
+    use hal::gpio::*;
+    use usb_device::{
+        bus::UsbBusAllocator, prelude::*,
+        device::{UsbDevice, UsbDeviceBuilder}
+    };
+    use usbd_hid::descriptor::{generator_prelude::*, KeyboardReport};
+    use usbd_hid::hid_class::HIDClass;
     use crate::setup;
 
     #[shared]
-    struct Shared {}
+    struct Shared {
+        usb_hid: HIDClass<'static, UsbBus>,
+    }
 
     #[local]
     struct Local {
         local_to_foo: i32,
         local_to_bar: i32,
         local_to_idle: i32,
+        usb_dev: UsbDevice<'static, UsbBus>,
     }
 
-    #[init]
+    #[init(local = [usb_alloc: Option<UsbBusAllocator<UsbBus>> = None])]
     fn init(mut cx: init::Context) -> (Shared, Local, init::Monotonics) {
         foo::spawn().unwrap();
         bar::spawn().unwrap();
         let mut clock = clock::GenericClockController::with_internal_32kosc(
             cx.device.GCLK, &mut cx.device.PM, &mut cx.device.SYSCTRL, &mut cx.device.NVMCTRL);
         let gclk0 = clock.gclk0();
-        clock.usb(&gclk0);
+        let usb_clk = clock.usb(&gclk0).unwrap();
         clock.tcc0_tcc1(&gclk0);
         setup::blink(&cx.device.PM, &cx.device.PORT, &cx.device.TCC0);
+        let pins = Pins::new(cx.device.PORT);
+        *cx.local.usb_alloc = Some(
+            UsbBusAllocator::new(UsbBus::new(
+                &usb_clk,
+                &mut cx.device.PM,
+                pins.pa24,
+                pins.pa25,
+                cx.device.USB,
+            ))
+        );
+        let usb_hid = HIDClass::new(
+            cx.local.usb_alloc.as_ref().unwrap(),
+            KeyboardReport::desc(),
+            60
+        );
+        let usb_dev = UsbDeviceBuilder::new(
+            cx.local.usb_alloc.as_ref().unwrap(),
+            UsbVidPid(0x1c0, 0x27dd)
+        )
+            .manufacturer("n8tlarsen")
+            .product("Oxide Keyboard")
+            .serial_number("TEST")
+            .build();
         (
-            Shared {},
+            Shared {
+                usb_hid: usb_hid,
+            },
             Local {
                 local_to_foo: 0,
                 local_to_bar: 0,
                 local_to_idle: 0,
+                usb_dev: usb_dev,
             },
             init::Monotonics(),
         )
@@ -73,5 +110,11 @@ mod app {
         *local_to_bar += 1;
         #[cfg(debug_assertions)]
         hprintln!("bar: local_to_bar = {}", local_to_bar).unwrap();
+    }
+
+    #[task(binds = USB, local = [usb_dev], shared =[usb_hid])]
+    fn usb(cx: usb::Context) {
+        #[cfg(debug_assertions)]
+        hprintln!("usb: hardware interrupt").unwrap();
     }
 }
