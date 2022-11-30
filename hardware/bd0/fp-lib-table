@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "Conn_CUI_SJ-4351")(type "KiCad")(uri "${KIPRJMOD}/../lib/Conn_CUI_SJ-4351/Conn_CUI_SJ-4351.pretty")(options "")(descr ""))
+  (lib (name "Signature")(type "KiCad")(uri "${KIPRJMOD}/../lib/Signature")(options "")(descr ""))
+)

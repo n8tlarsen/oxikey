@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "Conn_CUI_SJ-4351")(type "KiCad")(uri "${KIPRJMOD}/../lib/Conn_CUI_SJ-4351/Conn_CUI_SJ-4351.kicad_sym")(options "")(descr ""))
+)

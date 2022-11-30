@@ -1,0 +1,153 @@
+points:
+  key:
+    padding: cy
+    footprints:
+      keychoc:
+        type: choc
+        nets:
+          from: =keynet
+          to: GND
+        params:
+          hotswap: true
+          reverse: true
+          keycaps: true
+  zones:
+    matrix:
+      anchor:
+      rows:
+        bottom:
+          bind: [1,2,1,2]
+        home:
+          bind: [1,2,1,2]
+        top:
+          bind: [1,2,1,2]
+      columns:
+        outer:
+          spread: cx
+          rotate: 6
+          row_overrides:
+            bottom:
+              keynet: /outer_bottom
+            home:
+              keynet: /outer_home
+            top:
+              keynet: /outer_top
+        pinky:
+          spread: cx
+          row_overrides:
+            bottom:
+              keynet: /pinky_bottom
+            home:
+              keynet: /pinky_home
+            top:
+              keynet: /pinky_top
+        ring:
+          spread: cx+0.5
+          rotate: -3
+          stagger: 15
+          row_overrides:
+            bottom:
+              keynet: /ring_bottom
+            home:
+              keynet: /ring_home
+            top:
+              keynet: /ring_top
+        middle:
+          spread: cx+0.5
+          rotate: -3
+          stagger: 5
+          row_overrides:
+            bottom:
+              keynet: /middle_bottom
+            home:
+              keynet: /middle_home
+            top:
+              keynet: /middle_top
+        index:
+          spread: cx
+          stagger: -7
+          row_overrides:
+            bottom:
+              keynet: /index_bottom
+            home:
+              keynet: /index_home
+            top:
+              keynet: /index_top
+        inner:
+          spread: cx
+          row_overrides:
+            bottom:
+              keynet: /inner_bottom
+            home:
+              keynet: /inner_home
+            top:
+              keynet: /inner_top
+    thumbfan:
+      anchor:
+        ref: matrix_inner_bottom
+        shift: [-10, -26]
+        rotate: -25
+      rows:
+        thumb:
+          bind: [1,2,1,2]
+      columns:
+        near:
+          key:
+            rotate: -90
+          row_overrides:
+            thumb:
+              keynet: /near_thumb
+        home:
+          spread: cy
+          key:
+            rotate: -90
+          row_overrides:
+            thumb:
+              keynet: /home_thumb
+        far:
+          spread: cy
+          key:
+            rotate: -90
+          row_overrides:
+            thumb:
+              keynet: /far_thumb
+outlines:
+  exports:
+    raw:
+      - type: keys
+        side: left
+        size: [cx, cx]
+      - operation: add
+        type: polygon
+        points: 
+          - ref: matrix_pinky_bottom
+            shift: [0,-cy/2-1]
+          - ref: thumbfan_far_thumb
+            # shift: [0   , cy/2]
+          - ref: matrix_inner_top
+            shift: [20.81446479999999, 1.5+cy/2]
+          - ref: matrix_index_top
+            shift: [0, 1.5+cy/2]
+          # - ref: matrix_inner_bottom
+          #   shift: [cx/2,cy/2+1]
+          - ref: matrix_index_bottom
+          - ref: matrix_pinky_home
+    cutout:
+      - type: outline
+        name: raw
+        fillet: 3
+      - operation: add
+        type: outline
+        name: raw
+        fillet: 2
+    keycap_outlines:
+      - type: keys
+        side: left
+        size: [cx-0.5, cy-0.5]
+        bound: false
+
+pcbs:
+  bd0:
+    outlines:
+      bd:
+        outline: cutout
