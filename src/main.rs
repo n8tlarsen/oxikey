@@ -9,7 +9,7 @@ use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch
 
 pub mod setup;
 
-#[rtic::app(device = atsamd21j, dispatchers = [ADC,AC,DAC])]
+#[rtic::app(device = atsamd21g, dispatchers = [ADC,AC,DAC])]
 mod app {
     #[cfg(debug_assertions)]
     use cortex_m_semihosting::hprintln;
@@ -53,8 +53,8 @@ mod app {
         );
         let gclk0 = clock.gclk0();
         let usb_clk = clock.usb(&gclk0).unwrap();
-        clock.tcc0_tcc1(&gclk0);
-        setup::blink(&cx.device.PM, &cx.device.PORT, &cx.device.TCC0);
+        // clock.tcc0_tcc1(&gclk0);
+        // setup::blink(&cx.device.PM, &cx.device.PORT, &cx.device.TCC0);
         let pins = Pins::new(cx.device.PORT);
         *cx.local.usb_alloc = Some(UsbBusAllocator::new(UsbBus::new(
             &usb_clk,

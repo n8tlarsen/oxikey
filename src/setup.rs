@@ -18,7 +18,7 @@ bitfield! {
         reserved4,          _ : 127, 74;
 }
 
-pub fn blink(pm: &atsamd21j::PM, port: &atsamd21j::PORT, tcc0: &atsamd21j::TCC0) {
+pub fn blink(pm: &atsamd21g::PM, port: &atsamd21g::PORT, tcc0: &atsamd21g::TCC0) {
     // start timer in PWM mode to flash LED
     pm.apbcmask.write(|w| w.tcc0_().set_bit());
     unsafe {
