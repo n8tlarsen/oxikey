@@ -7,14 +7,11 @@ use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch
                      // use panic_itm as _; // logs messages over ITM; requires ITM support
                      // use panic_semihosting as _; // logs messages to the host stderr; requires a debugger
 
-pub mod setup;
-
 #[rtic::app(device = atsamd21g, dispatchers = [ADC,AC,DAC])]
 mod app {
     #[cfg(debug_assertions)]
     use cortex_m_semihosting::hprintln;
 
-    use crate::setup;
     use atsamd_hal as hal;
     use hal::gpio::*;
     use hal::thumbv6m::{clock, usb::UsbBus};
@@ -53,8 +50,6 @@ mod app {
         );
         let gclk0 = clock.gclk0();
         let usb_clk = clock.usb(&gclk0).unwrap();
-        // clock.tcc0_tcc1(&gclk0);
-        // setup::blink(&cx.device.PM, &cx.device.PORT, &cx.device.TCC0);
         let pins = Pins::new(cx.device.PORT);
         *cx.local.usb_alloc = Some(UsbBusAllocator::new(UsbBus::new(
             &usb_clk,
@@ -76,7 +71,7 @@ mod app {
         );
         let usb_dev = UsbDeviceBuilder::new(
             cx.local.usb_alloc.as_ref().unwrap(),
-            UsbVidPid(0x16c0, 0x27dd),
+            UsbVidPid(0x1209, 0x0001),
         )
         .manufacturer("n8tlarsen")
         .product("Oxide Keyboard")
