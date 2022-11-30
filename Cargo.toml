@@ -1,14 +1,14 @@
 [package]
-name = "oxykey"
-version = "0.1.0"
+name = "oxikey"
+version = "0.0.0"
 edition = "2021"
-description = "Oxykey library for building custom keyboards"
+description = "WIP library for building custom keyboards"
 readme = "README.md"
 keywords = ["keyboard", "hid", "usb", "no-std"]
 categories = ["embedded", "hardware-support", "no-std"]
 license = "MIT"
 authors = ["n8tlarsen"]
-repository = "https://github.com/n8tlarsen/oxykey"
+repository = "https://github.com/n8tlarsen/oxikey"
 
 [dependencies]
 bitfield = "^0.13.2"    
@@ -30,7 +30,7 @@ atsamd-hal = {version = "0.15.1", path = "../atsamd/hal"}
 atsamd21g  = {version = "0.12.0", path = "../atsamd/pac/atsamd21g"}
 
 [lib]
-name = "oxykey"
+name = "oxikey"
 test = false
 doctest = true
 bench = false
@@ -38,7 +38,7 @@ doc = true
 edition = "2021"
 
 [[example]]
-name = "oxykeybd0"
+name = "oxikeybd0"
 test = false
 bench = false
 
