@@ -15,6 +15,7 @@ mod app {
     use atsamd_hal as hal;
     use hal::gpio::*;
     use hal::thumbv6m::{clock, usb::UsbBus};
+    use hal::time::Hertz;
     use usb_device::{
         bus::UsbBusAllocator,
         device::{UsbDevice, UsbDeviceBuilder},
@@ -32,7 +33,7 @@ mod app {
 
     #[local]
     struct Local {
-        local_to_foo: i32,
+        keys: [oxikey::Debounce<8>; 21],
         local_to_bar: i32,
         local_to_idle: i32,
         usb_dev: UsbDevice<'static, UsbBus>,
@@ -40,7 +41,6 @@ mod app {
 
     #[init(local = [usb_alloc: Option<UsbBusAllocator<UsbBus>> = None])]
     fn init(mut cx: init::Context) -> (Shared, Local, init::Monotonics) {
-        foo::spawn().unwrap();
         bar::spawn().unwrap();
         let mut clock = clock::GenericClockController::with_internal_32kosc(
             cx.device.GCLK,
@@ -49,8 +49,31 @@ mod app {
             &mut cx.device.NVMCTRL,
         );
         let gclk0 = clock.gclk0();
+        cx.core.SYST.set_clock_source(cortex_m::peripheral::syst::SystClkSource::Core);
+        cx.core.SYST.set_reload((<hal::clock::GClock as Into<Hertz>>::into(gclk0).0)/2000u32);
         let usb_clk = clock.usb(&gclk0).unwrap();
         let pins = Pins::new(cx.device.PORT);
+        pins.pa15.into_pull_up_input(); // outer top
+        pins.pa14.into_pull_up_input(); // outer home
+        pins.pa13.into_pull_up_input(); // outer bottom
+        pins.pa12.into_pull_up_input(); // pinky top
+        pins.pa11.into_pull_up_input(); // pinky home
+        pins.pa10.into_pull_up_input(); // pinky bottom
+        pins.pa09.into_pull_up_input(); // ring top
+        pins.pa07.into_pull_up_input(); // ring home
+        pins.pa06.into_pull_up_input(); // ring bottom
+        pins.pa05.into_pull_up_input(); // middle top
+        pins.pa04.into_pull_up_input(); // middle home
+        pins.pa03.into_pull_up_input(); // middle bottom
+        pins.pa02.into_pull_up_input(); // index top
+        pins.pa01.into_pull_up_input(); // index home
+        pins.pa28.into_pull_up_input(); // index bottom
+        pins.pa20.into_pull_up_input(); // inner top
+        pins.pa19.into_pull_up_input(); // inner home
+        pins.pa18.into_pull_up_input(); // inner bottom
+        pins.pa08.into_pull_up_input(); // near thumb
+        pins.pa16.into_pull_up_input(); // home thumb
+        pins.pa17.into_pull_up_input(); // far  thumb
         *cx.local.usb_alloc = Some(UsbBusAllocator::new(UsbBus::new(
             &usb_clk,
             &mut cx.device.PM,
@@ -80,7 +103,7 @@ mod app {
         (
             Shared { usb_hid },
             Local {
-                local_to_foo: 0,
+                keys: Default::default(),
                 local_to_bar: 0,
                 local_to_idle: 0,
                 usb_dev,
@@ -100,20 +123,17 @@ mod app {
         }
     }
 
-    #[task(local = [local_to_foo])]
-    fn foo(cx: foo::Context) {
-        let local_to_foo = cx.local.local_to_foo;
-        *local_to_foo += 1;
-        #[cfg(debug_assertions)]
-        hprintln!("foo: local_to_foo = {}", local_to_foo).unwrap();
-    }
-
     #[task(local = [local_to_bar])]
     fn bar(cx: bar::Context) {
         let local_to_bar = cx.local.local_to_bar;
         *local_to_bar += 1;
         #[cfg(debug_assertions)]
         hprintln!("bar: local_to_bar = {}", local_to_bar).unwrap();
+    }
+
+    #[task(binds = SysTick, local = [keys])]
+    fn get_keys(cx: get_keys::Context) {
+
     }
 
     #[task(binds = USB, local = [usb_dev], shared =[usb_hid])]
