@@ -42,6 +42,7 @@ mod app {
     #[init(local = [usb_alloc: Option<UsbBusAllocator<UsbBus>> = None])]
     fn init(mut cx: init::Context) -> (Shared, Local, init::Monotonics) {
         bar::spawn().unwrap();
+        // Setup Clocks
         let mut clock = clock::GenericClockController::with_internal_32kosc(
             cx.device.GCLK,
             &mut cx.device.PM,
@@ -52,6 +53,7 @@ mod app {
         cx.core.SYST.set_clock_source(cortex_m::peripheral::syst::SystClkSource::Core);
         cx.core.SYST.set_reload((<hal::clock::GClock as Into<Hertz>>::into(gclk0).0)/2000u32);
         let usb_clk = clock.usb(&gclk0).unwrap();
+        // Setup Input Pins
         let pins = Pins::new(cx.device.PORT);
         pins.pa15.into_pull_up_input(); // outer top
         pins.pa14.into_pull_up_input(); // outer home
@@ -74,6 +76,7 @@ mod app {
         pins.pa08.into_pull_up_input(); // near thumb
         pins.pa16.into_pull_up_input(); // home thumb
         pins.pa17.into_pull_up_input(); // far  thumb
+        // Setup USB
         *cx.local.usb_alloc = Some(UsbBusAllocator::new(UsbBus::new(
             &usb_clk,
             &mut cx.device.PM,
@@ -100,6 +103,7 @@ mod app {
         .product("Oxide Keyboard")
         .serial_number("TEST")
         .build();
+        // Return Setup
         (
             Shared { usb_hid },
             Local {
@@ -133,7 +137,22 @@ mod app {
 
     #[task(binds = SysTick, local = [keys])]
     fn get_keys(cx: get_keys::Context) {
-
+        // Safe because this is a read within interrupt context
+        let mut port_a_in = unsafe { (*atsamd21g::PORT::PTR).in0.read().bits() };
+        let mut keys: [bool; 21] = Default::default();
+        for i in 0..32 {
+            match i {
+                1..=20 => {
+                    keys[i-i] = cx.local.keys[i-1].sample((port_a_in & 0x1u32) == 1);
+                }
+                28 => {
+                    keys[20] = cx.local.keys[20].sample((port_a_in & 0x1u32) == 1);
+                }
+                _ => (),
+            }
+            port_a_in = port_a_in >> 1;
+        }
+        
     }
 
     #[task(binds = USB, local = [usb_dev], shared =[usb_hid])]

@@ -7,7 +7,7 @@ pub struct Debounce<const N: usize> {
 }
 
 impl<const N: usize> Debounce<N> {
-    fn sample(&mut self, input: bool) -> bool {
+    pub fn sample(&mut self, input: bool) -> bool {
         self.buf.write(input);
         let mut sum = 0;
         for x in self.buf.oldest_ordered() {
