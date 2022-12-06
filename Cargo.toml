@@ -28,6 +28,7 @@ version = "0.15.1"
 [patch.crates-io]
 atsamd-hal = {version = "0.15.1", path = "../atsamd/hal"}
 atsamd21g  = {version = "0.12.0", path = "../atsamd/pac/atsamd21g"}
+usbd-hid   = {version = "0.6.1",  path = "../usbd-hid"}
 
 [lib]
 name = "oxikey"

@@ -3,9 +3,9 @@
 
 // pick a panicking behavior
 use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
-                     // use panic_abort as _; // requires nightly
-                     // use panic_itm as _; // logs messages over ITM; requires ITM support
-                     // use panic_semihosting as _; // logs messages to the host stderr; requires a debugger
+// use panic_abort as _; // requires nightly
+// use panic_itm as _; // logs messages over ITM; requires ITM support
+// use panic_semihosting as _; // logs messages to the host stderr; requires a debugger
 
 #[rtic::app(device = atsamd21g, dispatchers = [ADC,AC,DAC])]
 mod app {
@@ -21,13 +21,14 @@ mod app {
         device::{UsbDevice, UsbDeviceBuilder},
         prelude::*,
     };
-    use usbd_hid::descriptor::{generator_prelude::*, KeyboardReport};
+    use usbd_hid::descriptor::{generator_prelude::*, KeyboardReport, KeyboardUsage};
     use usbd_hid::hid_class::{
         HIDClass, HidClassSettings, HidCountryCode, HidProtocol, HidSubClass, ProtocolModeConfig,
     };
 
     #[shared]
     struct Shared {
+        // Need lock_free for armv6m
         usb_hid: HIDClass<'static, UsbBus>,
     }
 
@@ -135,27 +136,108 @@ mod app {
         hprintln!("bar: local_to_bar = {}", local_to_bar).unwrap();
     }
 
-    #[task(binds = SysTick, local = [keys])]
-    fn get_keys(cx: get_keys::Context) {
+    #[task(binds = SysTick, local = [keys], shared = [usb_hid])]
+    fn get_keys(mut cx: get_keys::Context) {
         // Safe because this is a read within interrupt context
         let mut port_a_in = unsafe { (*atsamd21g::PORT::PTR).in0.read().bits() };
-        let mut keys: [bool; 21] = Default::default();
-        for i in 0..32 {
-            match i {
-                1..=20 => {
-                    keys[i-i] = cx.local.keys[i-1].sample((port_a_in & 0x1u32) == 1);
+        let mut keycodes: [u8; 6] = Default::default();
+        let mut modifier = 0u8;
+        const PHY_MAP: [Option<usize>; 32] = [
+            None,
+            Some(13),
+            Some(12),
+            Some(11),
+            Some(10),
+            Some(09),
+            Some(08),
+            Some(07),
+            Some(18),
+            Some(06),
+            Some(05),
+            Some(04),
+            Some(03),
+            Some(02),
+            Some(01),
+            Some(00),
+            Some(19),
+            Some(20),
+            Some(17),
+            Some(16),
+            Some(15),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            Some(14),
+            None,
+            None,
+            None,
+        ];
+        const KEY_MAP: [KeyboardUsage; 21] = [
+            KeyboardUsage::KeyboardEscape,        // outer top
+            KeyboardUsage::KeyboardBacktickTilde, // outer home
+            KeyboardUsage::KeyboardTab,           // outer bottom
+            KeyboardUsage::KeyboardQq,            // pinky top
+            KeyboardUsage::KeyboardAa,            // pinky home
+            KeyboardUsage::KeyboardZz,            // pinky bottom
+            KeyboardUsage::KeyboardWw,            // ring top
+            KeyboardUsage::KeyboardSs,            // ring home
+            KeyboardUsage::KeyboardXx,            // ring bottom
+            KeyboardUsage::KeyboardEe,            // middle top
+            KeyboardUsage::KeyboardDd,            // middle home
+            KeyboardUsage::KeyboardCc,            // middle bottom
+            KeyboardUsage::KeyboardRr,            // index top
+            KeyboardUsage::KeyboardFf,            // index home
+            KeyboardUsage::KeyboardVv,            // index bottom
+            KeyboardUsage::KeyboardTt,            // inner top
+            KeyboardUsage::KeyboardGg,            // inner home
+            KeyboardUsage::KeyboardBb,            // inner bottom
+            KeyboardUsage::KeyboardLeftControl,   // near thumb
+            KeyboardUsage::KeyboardLeftShift,     // home thumb
+            KeyboardUsage::KeyboardLeftGUI        // far  thumb
+        ];
+        let mut key_index = 0usize;
+        for b in 0..32 {
+            if let Some(dest) = PHY_MAP[b] {
+                if cx.local.keys[b-1].sample((port_a_in & 0x1u32) == 1)
+                {
+                    let key_pressed = KEY_MAP[dest] as u8;
+                    if key_pressed < (KeyboardUsage::KeyboardLeftControl as u8) {
+                        if key_index >= keycodes.len() {
+                            for x in keycodes.iter_mut() {
+                                *x = KeyboardUsage::KeyboardErrorRollOver as u8;
+                            }
+                            modifier = 0u8;
+                            break;
+                        } else {
+                            keycodes[key_index] = key_pressed;
+                            key_index += 1;
+                        }
+                    }
+                    else
+                    {
+                        modifier |= 1 << (key_pressed-(KeyboardUsage::KeyboardLeftControl as u8));
+                    }
                 }
-                28 => {
-                    keys[20] = cx.local.keys[20].sample((port_a_in & 0x1u32) == 1);
-                }
-                _ => (),
             }
             port_a_in = port_a_in >> 1;
         }
-        
+        cx.shared.usb_hid.lock(|hid| {
+            hid.push_input(&KeyboardReport{
+                modifier,
+                reserved: 0u8,
+                leds: 0u8,
+                keycodes,
+            })
+            .ok()
+            .unwrap_or(0);
+        });
     }
 
-    #[task(binds = USB, local = [usb_dev], shared =[usb_hid])]
+    #[task(binds = USB, local = [usb_dev], shared = [usb_hid])]
     fn usb(mut cx: usb::Context) {
         let dev = cx.local.usb_dev;
         cx.shared.usb_hid.lock(|hid| {
@@ -163,3 +245,4 @@ mod app {
         });
     }
 }
+
