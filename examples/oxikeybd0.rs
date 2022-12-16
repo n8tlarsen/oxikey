@@ -14,8 +14,8 @@ mod app {
 
     use atsamd_hal as hal;
     use hal::gpio::*;
-    use hal::thumbv6m::{clock, usb::UsbBus};
-    use hal::time::Hertz;
+    use hal::thumbv6m::{clock, timer::TimerCounter, usb::UsbBus};
+    use hal::{time, timer_traits::InterruptDrivenTimer, prelude::_embedded_hal_timer_CountDown};
     use usb_device::{
         bus::UsbBusAllocator,
         device::{UsbDevice, UsbDeviceBuilder},
@@ -51,9 +51,12 @@ mod app {
             &mut cx.device.NVMCTRL,
         );
         let gclk0 = clock.gclk0();
-        cx.core.SYST.set_clock_source(cortex_m::peripheral::syst::SystClkSource::Core);
-        cx.core.SYST.set_reload((<hal::clock::GClock as Into<Hertz>>::into(gclk0).0)/2000u32);
         let usb_clk = clock.usb(&gclk0).unwrap();
+        let tc4_clk = clock.tc4_tc5(&gclk0).unwrap();
+        // Setup Periodic Interrupt
+        let mut tc4 = TimerCounter::tc4_(&tc4_clk, cx.device.TC4, &mut cx.device.PM);
+        tc4.start(time::Milliseconds(1));
+        tc4.enable_interrupt();
         // Setup Input Pins
         let pins = Pins::new(cx.device.PORT);
         pins.pa15.into_pull_up_input(); // outer top
@@ -136,7 +139,7 @@ mod app {
         hprintln!("bar: local_to_bar = {}", local_to_bar).unwrap();
     }
 
-    #[task(binds = SysTick, local = [keys], shared = [usb_hid])]
+    #[task(binds = TC4, local = [keys], shared = [usb_hid])]
     fn get_keys(mut cx: get_keys::Context) {
         // Safe because this is a read within interrupt context
         let mut port_a_in = unsafe { (*atsamd21g::PORT::PTR).in0.read().bits() };
@@ -202,7 +205,7 @@ mod app {
         let mut key_index = 0usize;
         for b in 0..32 {
             if let Some(dest) = PHY_MAP[b] {
-                if cx.local.keys[b-1].sample((port_a_in & 0x1u32) == 1)
+                if cx.local.keys[dest].sample((port_a_in & 0x1u32) == 0)
                 {
                     let key_pressed = KEY_MAP[dest] as u8;
                     if key_pressed < (KeyboardUsage::KeyboardLeftControl as u8) {
@@ -237,7 +240,7 @@ mod app {
         });
     }
 
-    #[task(binds = USB, local = [usb_dev], shared = [usb_hid])]
+    #[task(binds = USB, local = [usb_dev], shared = [usb_hid], priority = 3)]
     fn usb(mut cx: usb::Context) {
         let dev = cx.local.usb_dev;
         cx.shared.usb_hid.lock(|hid| {
