@@ -20,6 +20,8 @@ heapless = "0.7.16"
 atsamd21g = {version = "0.12.0", features = ["rt"]}
 usb-device = "0.2.9"
 usbd-hid = "0.6.0"
+defmt = "0.3.2"
+defmt-rtt = "0.4.0"
 
 [dependencies.atsamd-hal]
 features = ["samd21g","rtic-monotonic","usb"]

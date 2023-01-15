@@ -11,6 +11,7 @@ use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch
 mod app {
     #[cfg(debug_assertions)]
     use cortex_m_semihosting::hprintln;
+    use defmt;
 
     use atsamd_hal as hal;
     use hal::gpio::*;
@@ -43,6 +44,7 @@ mod app {
     #[init(local = [usb_alloc: Option<UsbBusAllocator<UsbBus>> = None])]
     fn init(mut cx: init::Context) -> (Shared, Local, init::Monotonics) {
         bar::spawn().unwrap();
+        defmt::trace!("init");
         // Setup Clocks
         let mut clock = clock::GenericClockController::with_internal_32kosc(
             cx.device.GCLK,
@@ -101,7 +103,7 @@ mod app {
         );
         let usb_dev = UsbDeviceBuilder::new(
             cx.local.usb_alloc.as_ref().unwrap(),
-            UsbVidPid(0x1209, 0x0001),
+            UsbVidPid(0x1209, 0x6F78),
         )
         .manufacturer("n8tlarsen")
         .product("Oxide Keyboard")
