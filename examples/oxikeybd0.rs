@@ -3,19 +3,39 @@
 #![feature(type_alias_impl_trait)]
 
 // pick a panicking behavior
-use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
+// use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
 // use panic_abort as _; // requires nightly
 // use panic_itm as _; // logs messages over ITM; requires ITM support
 // use panic_semihosting as _; // logs messages to the host stderr; requires a debugger
 
+use core::sync::atomic::{AtomicUsize, Ordering};
+use panic_probe as _;
+use defmt_brtt as _;
 
-#[rtic::app(device = atsamd_hal::pac, dispatchers = [ADC,AC,DAC])]
+#[defmt::panic_handler]
+fn panic() -> ! {
+    cortex_m::asm::udf()
+}
+
+static COUNT: AtomicUsize = AtomicUsize::new(0);
+defmt::timestamp!("{=usize}", {
+    // NOTE(no-CAS) `timestamps` runs with interrupts disabled
+    let n = COUNT.load(Ordering::Relaxed);
+    COUNT.store(n + 1, Ordering::Relaxed);
+    n
+});
+
+pub fn exit() -> ! {
+    loop {
+        cortex_m::asm::bkpt();
+    }
+}
+
+use atsamd_hal as hal;
+
+#[rtic::app(device = hal::pac, dispatchers = [ADC,AC,DAC])]
 mod app {
-    #[cfg(debug_assertions)]
-    use cortex_m_semihosting::hprintln;
-    use defmt;
-
-    use atsamd_hal as hal;
+    use super::*;
     use hal::gpio::*;
     use hal::thumbv6m::{clock, timer::TimerCounter, usb::UsbBus};
     use hal::{time, timer_traits::InterruptDrivenTimer, prelude::_embedded_hal_timer_CountDown};
@@ -127,8 +147,7 @@ mod app {
     fn idle(cx: idle::Context) -> ! {
         let local_to_idle = cx.local.local_to_idle;
         *local_to_idle += 1;
-        #[cfg(debug_assertions)]
-        hprintln!("idle: local_to_idle = {}", local_to_idle).unwrap();
+        defmt::info!("idle: local_to_idle = {}", local_to_idle);
         loop {
             cortex_m::asm::nop();
         }
@@ -138,8 +157,7 @@ mod app {
     async fn bar(cx: bar::Context) {
         let local_to_bar = cx.local.local_to_bar;
         *local_to_bar += 1;
-        #[cfg(debug_assertions)]
-        hprintln!("bar: local_to_bar = {}", local_to_bar).unwrap();
+        defmt::info!("bar: local_to_bar = {}", local_to_bar);
     }
 
     #[task(binds = TC4, local = [keys], shared = [usb_hid])]

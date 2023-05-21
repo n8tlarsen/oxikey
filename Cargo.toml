@@ -14,17 +14,9 @@ repository = "https://github.com/n8tlarsen/oxikey"
 cortex-m = { version = "0.7.5", features = ["critical-section-single-core"] }
 cortex-m-rt = "0.7.1"
 cortex-m-semihosting = "0.3.0"
-panic-halt = "0.2.0"
 heapless = "0.7.16"
 usb-device = "0.2.9"
 usbd-hid = "0.6.0"
-defmt = "0.3.2"
-defmt-rtt = "0.4.0"
-
-[dependencies.rtic]
-version = "2.0.0-alpha.2" 
-features = ["thumbv6-backend"]
-
 
 [lib]
 name = "oxikey"
@@ -39,9 +31,29 @@ name = "oxikeybd0"
 test = false
 bench = false
 
+[dev-dependencies.defmt]
+version = "0.3"
+features = ["encoding-rzcobs"]
+
+[dev-dependencies.defmt-brtt]
+version = "0.1"
+default-features = false
+features = ["rtt"]
+
+[dev-dependencies]
+panic-halt = "0.2"
+
+[dev-dependencies.panic-probe]
+version = "0.3"
+features = ["print-defmt"]
+
+[dev-dependencies.rtic]
+version = "2.0.0-alpha.2" 
+features = ["thumbv6-backend"]
+
 [dev-dependencies.atsamd-hal]
 version = "0.15.1"
-features = ["samd21g-rt", "rtic", "usb"]
+features = ["samd21g-rt", "usb"]
 
 [patch.crates-io]
 atsamd-hal = {git = "https://github.com/atsamd-rs/atsamd"}

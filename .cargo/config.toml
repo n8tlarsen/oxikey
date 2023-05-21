@@ -32,6 +32,9 @@ rustflags = [
   # "-C", "link-arg=-nostartfiles",
 ]
 
+[env]
+DEFMT_BRTT_BUFFER_SIZE = {value = "256", force = true}
+
 [build]
 # Pick ONE of these compilation targets
 target = "thumbv6m-none-eabi"        # Cortex-M0 and Cortex-M0+
