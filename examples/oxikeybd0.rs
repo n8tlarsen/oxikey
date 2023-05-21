@@ -1,5 +1,6 @@
 #![no_std]
 #![no_main]
+#![feature(type_alias_impl_trait)]
 
 // pick a panicking behavior
 use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
@@ -7,7 +8,8 @@ use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch
 // use panic_itm as _; // logs messages over ITM; requires ITM support
 // use panic_semihosting as _; // logs messages to the host stderr; requires a debugger
 
-#[rtic::app(device = atsamd21g, dispatchers = [ADC,AC,DAC])]
+
+#[rtic::app(device = atsamd_hal::pac, dispatchers = [ADC,AC,DAC])]
 mod app {
     #[cfg(debug_assertions)]
     use cortex_m_semihosting::hprintln;
@@ -42,7 +44,7 @@ mod app {
     }
 
     #[init(local = [usb_alloc: Option<UsbBusAllocator<UsbBus>> = None])]
-    fn init(mut cx: init::Context) -> (Shared, Local, init::Monotonics) {
+    fn init(mut cx: init::Context) -> (Shared, Local) {
         bar::spawn().unwrap();
         defmt::trace!("init");
         // Setup Clocks
@@ -118,7 +120,6 @@ mod app {
                 local_to_idle: 0,
                 usb_dev,
             },
-            init::Monotonics(),
         )
     }
 
@@ -133,8 +134,8 @@ mod app {
         }
     }
 
-    #[task(local = [local_to_bar])]
-    fn bar(cx: bar::Context) {
+    #[task(local = [local_to_bar], priority = 1)]
+    async fn bar(cx: bar::Context) {
         let local_to_bar = cx.local.local_to_bar;
         *local_to_bar += 1;
         #[cfg(debug_assertions)]
@@ -144,7 +145,7 @@ mod app {
     #[task(binds = TC4, local = [keys], shared = [usb_hid])]
     fn get_keys(mut cx: get_keys::Context) {
         // Safe because this is a read within interrupt context
-        let mut port_a_in = unsafe { (*atsamd21g::PORT::PTR).in0.read().bits() };
+        let mut port_a_in = unsafe { (*hal::pac::PORT::PTR).in0.read().bits() };
         let mut keycodes: [u8; 6] = Default::default();
         let mut modifier = 0u8;
         const PHY_MAP: [Option<usize>; 32] = [
