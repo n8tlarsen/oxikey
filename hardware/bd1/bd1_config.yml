@@ -23,9 +23,9 @@ points:
           bind: [1,2,1,2]
       columns:
         outer:
-          spread: cx
-          rotate: 6
-          row_overrides:
+          key.spread: cx
+          key.splay: 6
+          key.row_overrides:
             bottom:
               keynet: /outer_bottom
             home:
@@ -33,8 +33,8 @@ points:
             top:
               keynet: /outer_top
         pinky:
-          spread: cx
-          row_overrides:
+          key.spread: cx
+          key.row_overrides:
             bottom:
               keynet: /pinky_bottom
             home:
@@ -42,10 +42,10 @@ points:
             top:
               keynet: /pinky_top
         ring:
-          spread: cx+0.5
-          rotate: -3
-          stagger: 15
-          row_overrides:
+          key.spread: cx+0.5
+          key.splay: -3
+          key.stagger: 15
+          key.row_overrides:
             bottom:
               keynet: /ring_bottom
             home:
@@ -53,10 +53,10 @@ points:
             top:
               keynet: /ring_top
         middle:
-          spread: cx+0.5
-          rotate: -3
-          stagger: 5
-          row_overrides:
+          key.spread: cx+0.5
+          key.splay: -3
+          key.stagger: 5
+          key.row_overrides:
             bottom:
               keynet: /middle_bottom
             home:
@@ -64,9 +64,9 @@ points:
             top:
               keynet: /middle_top
         index:
-          spread: cx
-          stagger: -7
-          row_overrides:
+          key.spread: cx
+          key.stagger: -7
+          key.row_overrides:
             bottom:
               keynet: /index_bottom
             home:
@@ -74,8 +74,8 @@ points:
             top:
               keynet: /index_top
         inner:
-          spread: cx
-          row_overrides:
+          key.spread: cx
+          key.row_overrides:
             bottom:
               keynet: /inner_bottom
             home:
@@ -89,65 +89,102 @@ points:
         rotate: -25
       rows:
         thumb:
-          bind: [1,2,1,2]
+          key.bind: [1,2,1,2]
       columns:
         near:
-          key:
-            rotate: -90
-          row_overrides:
+          key.spread: cx
+          key.row_overrides:
             thumb:
               keynet: /near_thumb
         home:
-          spread: cy
-          key:
-            rotate: -90
-          row_overrides:
+          key.spread: cx
+          key.row_overrides:
             thumb:
               keynet: /home_thumb
         far:
-          spread: cy
-          key:
-            rotate: -90
-          row_overrides:
+          key.spread: cx
+          key.row_overrides:
             thumb:
               keynet: /far_thumb
 outlines:
-  exports:
-    raw:
-      - type: keys
-        side: left
-        size: [cx, cx]
-      - operation: add
-        type: polygon
-        points: 
-          - ref: matrix_pinky_bottom
-            shift: [0,-cy/2-1]
-          - ref: thumbfan_far_thumb
-            # shift: [0   , cy/2]
-          - ref: matrix_inner_top
-            shift: [20.81446479999999, 1.5+cy/2]
-          - ref: matrix_index_top
-            shift: [0, 1.5+cy/2]
-          # - ref: matrix_inner_bottom
-          #   shift: [cx/2,cy/2+1]
-          - ref: matrix_index_bottom
-          - ref: matrix_pinky_home
-    cutout:
-      - type: outline
-        name: raw
-        fillet: 3
-      - operation: add
-        type: outline
-        name: raw
-        fillet: 2
-    keycap_outlines:
-      - type: keys
-        side: left
-        size: [cx-0.5, cy-0.5]
-        bound: false
+  raw:
+    - what: rectangle
+      where: /^matrix_.*/
+    - what: rectangle
+      where: /^thumbfan_.*/
+      operation: add
+    - what: polygon
+      operation: add
+      points: 
+        - ref: matrix_pinky_bottom
+          shift: [0,-cy/2-1]
+        - ref: thumbfan_far_thumb
+          # shift: [0   , cy/2]
+        - ref: matrix_inner_top
+          shift: [20.81446479999999, 1.5+cy/2]
+        - ref: matrix_index_top
+          shift: [0, 1.5+cy/2]
+        # - ref: matrix_inner_bottom
+        #   shift: [cx/2,cy/2+1]
+        - ref: matrix_index_bottom
+        - ref: matrix_pinky_home
+  cutout:
+    - what: outline
+      where: undefined
+      name: raw
+      fillet: 3
+    - what: outline
+      where: undefined
+      name: raw
+      operation: add
+      fillet: 2
+  keycap_outlines:
+    - what: rectangle
+      where: /^matrix_.*/
+      operation: add
+      size: [cx-0.5, cy-0.5]
+      bound: false
+    - what: rectangle
+      where: /^thumbfan_.*/
+      operation: add
+      size: [cx-0.5, cy-0.5]
+      bound: false
+
+  # raw:
+  #   - type: keys
+  #     side: left
+  #     size: [cx, cx]
+  #   - operation: add
+  #     type: polygon
+  #     points: 
+  #       - ref: matrix_pinky_bottom
+  #         shift: [0,-cy/2-1]
+  #       - ref: thumbfan_far_thumb
+  #         # shift: [0   , cy/2]
+  #       - ref: matrix_inner_top
+  #         shift: [20.81446479999999, 1.5+cy/2]
+  #       - ref: matrix_index_top
+  #         shift: [0, 1.5+cy/2]
+  #       # - ref: matrix_inner_bottom
+  #       #   shift: [cx/2,cy/2+1]
+  #       - ref: matrix_index_bottom
+  #       - ref: matrix_pinky_home
+  # cutout:
+  #   - type: outline
+  #     name: raw
+  #     fillet: 3
+  #   - operation: add
+  #     type: outline
+  #     name: raw
+  #     fillet: 2
+  # keycap_outlines:
+  #   - type: keys
+  #     side: left
+  #     size: [cx-0.5, cy-0.5]
+  #     bound: false
 
 pcbs:
-  bd0:
+  bd1:
     outlines:
       bd:
         outline: cutout
