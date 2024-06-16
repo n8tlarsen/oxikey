@@ -16,7 +16,9 @@ Cargo.lock
 *.000
 *.bak
 *.bck
+*.lck
 *.kicad_pcb-bak
+*.kicad_sch-bak
 *.sch-bak
 **/*-backups
 *~
@@ -26,6 +28,8 @@ _autosave-*
 *-save.pro
 *-save.kicad_pcb
 fp-info-cache
+fp-lib-table
+sym-lib-table
 
 # Netlist files (exported from Eeschema)
 *.net
