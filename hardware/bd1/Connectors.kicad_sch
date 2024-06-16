@@ -2331,7 +2331,18 @@
 		)
 		(uuid "fe9f40b0-b753-4cc1-aead-333728af438c")
 	)
-	(label "SCL"
+	(label "SDA"
+		(at 185.42 115.57 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1b71a730-335f-4766-a358-3b3208a5d35a")
+	)
+	(label "SDA"
 		(at 185.42 134.62 0)
 		(fields_autoplaced yes)
 		(effects
@@ -2340,9 +2351,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "38a40150-9597-4115-bac5-8f75aec558f8")
+		(uuid "49e777cc-f7ac-4634-a07a-152f45d05fe8")
 	)
-	(label "SDA"
+	(label "SCL"
 		(at 185.42 120.65 0)
 		(fields_autoplaced yes)
 		(effects
@@ -2351,7 +2362,18 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "739c70fc-21c5-4ee4-9b3b-4ce2d3bfc906")
+		(uuid "54265663-1fae-413e-b8ee-63d198597634")
+	)
+	(label "SCL"
+		(at 185.42 139.7 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a0a7632b-01cf-4005-b724-5b9417353a04")
 	)
 	(label "USB_DN"
 		(at 146.05 67.31 0)
@@ -2363,17 +2385,6 @@
 			(justify left bottom)
 		)
 		(uuid "b1361e61-3298-4fda-864a-dd43a8b5bf49")
-	)
-	(label "SDA"
-		(at 185.42 139.7 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2ab0537-0fb0-47b3-a24c-7e784ae3e160")
 	)
 	(label "USB_DP"
 		(at 189.23 72.39 0)
@@ -2397,17 +2408,6 @@
 		)
 		(uuid "bf8a9f30-c626-460d-bea0-6592ae046ca6")
 	)
-	(label "SCL"
-		(at 185.42 115.57 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "e52eac69-d2e3-42da-9c2b-e1244d60a9dc")
-	)
 	(label "USB_DN"
 		(at 189.23 67.31 0)
 		(fields_autoplaced yes)
@@ -2419,7 +2419,19 @@
 		)
 		(uuid "fa5e6619-61e5-4a05-a175-cc3df6c4771b")
 	)
-	(hierarchical_label "SCL"
+	(hierarchical_label "USB_DP"
+		(shape bidirectional)
+		(at 198.12 72.39 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0f1a7173-befb-4cab-b21e-f3da364cb8c3")
+	)
+	(hierarchical_label "SDA"
 		(shape bidirectional)
 		(at 193.04 115.57 0)
 		(fields_autoplaced yes)
@@ -2429,9 +2441,9 @@
 			)
 			(justify left)
 		)
-		(uuid "80b1226b-8e4e-4778-a1ea-92c3d236b28a")
+		(uuid "41042d30-6044-4306-a05c-f3685dd4a983")
 	)
-	(hierarchical_label "SDA"
+	(hierarchical_label "SCL"
 		(shape bidirectional)
 		(at 193.04 120.65 0)
 		(fields_autoplaced yes)
@@ -2441,7 +2453,19 @@
 			)
 			(justify left)
 		)
-		(uuid "cc50f297-679a-484b-8a84-7b1930dff8a0")
+		(uuid "7133dc98-de3a-4522-af42-db15376dbf5d")
+	)
+	(hierarchical_label "USB_DN"
+		(shape bidirectional)
+		(at 198.12 67.31 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8cf58db9-c215-46a3-86d9-4731e2239fde")
 	)
 	(symbol
 		(lib_id "Device:C")

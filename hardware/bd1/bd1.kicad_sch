@@ -2354,8 +2354,40 @@
 		(uuid "edc7637e-9520-4dcd-8e2b-ef73d6f8bc12")
 	)
 	(no_connect
+		(at 205.74 105.41)
+		(uuid "3746e69a-4897-4b4b-921a-78f09795d6b7")
+	)
+	(no_connect
+		(at 114.3 115.57)
+		(uuid "53150b94-812a-4890-b213-9d6c82467a88")
+	)
+	(no_connect
+		(at 175.26 105.41)
+		(uuid "700bdbbc-c686-49d1-95bb-3240f88b78ad")
+	)
+	(no_connect
+		(at 175.26 92.71)
+		(uuid "9785a4be-804b-4765-b25c-8507a5a77996")
+	)
+	(no_connect
+		(at 205.74 123.19)
+		(uuid "b0ef84bc-74f6-4baa-a47d-3381890916bc")
+	)
+	(no_connect
 		(at 241.3 153.67)
 		(uuid "ba7023e2-0e1a-4475-877d-b9ccc7da3e98")
+	)
+	(no_connect
+		(at 175.26 102.87)
+		(uuid "c10e6338-aea1-46b8-a3ad-64ebe45f2aca")
+	)
+	(no_connect
+		(at 175.26 90.17)
+		(uuid "d588f6d6-45a9-4147-81ca-b17c31d6bcc8")
+	)
+	(no_connect
+		(at 175.26 100.33)
+		(uuid "dba87792-109e-4851-ab4d-c1f1d804800b")
 	)
 	(wire
 		(pts
@@ -2699,6 +2731,16 @@
 	)
 	(wire
 		(pts
+			(xy 245.11 134.62) (xy 254 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2522ce29-4c16-43f8-8421-aeafc166b046")
+	)
+	(wire
+		(pts
 			(xy 135.89 151.13) (xy 135.89 154.94)
 		)
 		(stroke
@@ -2879,6 +2921,16 @@
 	)
 	(wire
 		(pts
+			(xy 162.56 146.05) (xy 175.26 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "329a3b1a-e132-46fc-b3d3-8682e12659d2")
+	)
+	(wire
+		(pts
 			(xy 90.17 151.13) (xy 90.17 154.94)
 		)
 		(stroke
@@ -2919,16 +2971,6 @@
 	)
 	(wire
 		(pts
-			(xy 162.56 148.59) (xy 175.26 148.59)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "392cda2d-9302-4f90-8016-134f2f5002b8")
-	)
-	(wire
-		(pts
 			(xy 205.74 90.17) (xy 218.44 90.17)
 		)
 		(stroke
@@ -2949,16 +2991,6 @@
 	)
 	(wire
 		(pts
-			(xy 162.56 100.33) (xy 175.26 100.33)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3efea74f-a375-4448-9b2d-ec2ac31c4d4e")
-	)
-	(wire
-		(pts
 			(xy 105.41 107.95) (xy 105.41 143.51)
 		)
 		(stroke
@@ -2966,16 +2998,6 @@
 			(type default)
 		)
 		(uuid "3fb9cc7b-4157-4bda-9143-6fff57ad9b5f")
-	)
-	(wire
-		(pts
-			(xy 162.56 90.17) (xy 175.26 90.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "401747b9-71de-43a7-9522-017d4d0292dd")
 	)
 	(wire
 		(pts
@@ -3059,16 +3081,6 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 105.41) (xy 218.44 105.41)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "468e8be8-d808-401c-b9ac-0fa82c7312cb")
-	)
-	(wire
-		(pts
 			(xy 101.6 63.5) (xy 101.6 64.77)
 		)
 		(stroke
@@ -3149,6 +3161,16 @@
 	)
 	(wire
 		(pts
+			(xy 162.56 143.51) (xy 175.26 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52ed0e0f-b61c-4d92-971b-f032b9742aba")
+	)
+	(wire
+		(pts
 			(xy 227.33 154.94) (xy 227.33 153.67)
 		)
 		(stroke
@@ -3226,6 +3248,16 @@
 			(type default)
 		)
 		(uuid "5a7d13c6-4b5c-4029-8816-17618cc376ed")
+	)
+	(wire
+		(pts
+			(xy 245.11 137.16) (xy 254 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b8bd007-e783-42d3-88a3-36da2862ecb1")
 	)
 	(wire
 		(pts
@@ -3359,6 +3391,16 @@
 	)
 	(wire
 		(pts
+			(xy 162.56 148.59) (xy 175.26 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "68d033c3-a839-4079-ba47-993cdb575e90")
+	)
+	(wire
+		(pts
 			(xy 162.56 138.43) (xy 175.26 138.43)
 		)
 		(stroke
@@ -3426,16 +3468,6 @@
 			(type default)
 		)
 		(uuid "723afa15-ab2b-402c-93af-45b24049c39e")
-	)
-	(wire
-		(pts
-			(xy 205.74 123.19) (xy 218.44 123.19)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "72d1a258-9e73-4bc9-be27-a38f3992632e")
 	)
 	(wire
 		(pts
@@ -3526,16 +3558,6 @@
 			(type default)
 		)
 		(uuid "84f28cd5-d7ee-4931-a94f-db920e46eb64")
-	)
-	(wire
-		(pts
-			(xy 162.56 102.87) (xy 175.26 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8521725b-344f-465f-bb87-1b2b551b6804")
 	)
 	(wire
 		(pts
@@ -3859,16 +3881,6 @@
 	)
 	(wire
 		(pts
-			(xy 162.56 146.05) (xy 175.26 146.05)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a8c3d4c1-a6ce-4932-88a7-06afda500ea8")
-	)
-	(wire
-		(pts
 			(xy 97.79 151.13) (xy 97.79 154.94)
 		)
 		(stroke
@@ -3946,16 +3958,6 @@
 			(type default)
 		)
 		(uuid "b172d722-3e64-4bea-9618-6cb96feef1ab")
-	)
-	(wire
-		(pts
-			(xy 162.56 92.71) (xy 175.26 92.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b22938a8-8cfc-40aa-856a-18d0b24c2ead")
 	)
 	(wire
 		(pts
@@ -4056,16 +4058,6 @@
 			(type default)
 		)
 		(uuid "c6c4f78f-76f2-47fa-a217-ee682c3a6431")
-	)
-	(wire
-		(pts
-			(xy 162.56 105.41) (xy 175.26 105.41)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c6f321a9-3360-4aed-b611-9ea5f96971a6")
 	)
 	(wire
 		(pts
@@ -4299,16 +4291,6 @@
 	)
 	(wire
 		(pts
-			(xy 162.56 143.51) (xy 175.26 143.51)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e4ff194a-1fb4-44e9-8bf2-4575709ad62c")
-	)
-	(wire
-		(pts
 			(xy 25.4 92.71) (xy 45.72 92.71)
 		)
 		(stroke
@@ -4528,6 +4510,28 @@
 		)
 		(uuid "0bd678a3-90fe-4362-8c54-8b5f48e88ec1")
 	)
+	(label "USB_DP"
+		(at 246.38 137.16 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "0ce417b8-90a4-418d-aba5-3a07d9e77afd")
+	)
+	(label "LED1"
+		(at 165.1 120.65 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1969f601-842e-4704-a2d6-694846e749b3")
+	)
 	(label "home_thumb"
 		(at 43.18 87.63 180)
 		(fields_autoplaced yes)
@@ -4571,6 +4575,17 @@
 			(justify left bottom)
 		)
 		(uuid "2bc83512-676f-4c2d-aaf8-0d9135bac296")
+	)
+	(label "LED2"
+		(at 165.1 123.19 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "31a65142-66da-49c0-9cdc-debfdbd4f111")
 	)
 	(label "LED0"
 		(at 77.47 35.56 0)
@@ -4726,6 +4741,17 @@
 		)
 		(uuid "8bf37a13-e175-4246-a4f0-4ab526c58c2e")
 	)
+	(label "USB_DN"
+		(at 246.38 134.62 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8d97e3d7-4031-4c97-8559-acae2087c7ca")
+	)
 	(label "LED1"
 		(at 77.47 38.1 0)
 		(fields_autoplaced yes)
@@ -4880,6 +4906,17 @@
 		)
 		(uuid "e8d2762b-a9c5-4934-83eb-50539a2bc0b4")
 	)
+	(label "LED0"
+		(at 165.1 118.11 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ec9e76aa-d31b-472d-8279-4a792387eff7")
+	)
 	(label "ring_home"
 		(at 43.18 118.11 180)
 		(fields_autoplaced yes)
@@ -4944,7 +4981,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 78.74 148.59 0)
 			(effects
 				(font
@@ -5426,7 +5463,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 91.44 90)
 			(effects
 				(font
@@ -5494,7 +5531,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 121.92 90)
 			(effects
 				(font
@@ -5639,7 +5676,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 216.8652 55.88 0)
 			(effects
 				(font
@@ -5840,7 +5877,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 128.27 143.51 0)
 			(effects
 				(font
@@ -5909,7 +5946,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 82.55 90)
 			(effects
 				(font
@@ -6046,7 +6083,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 116.84 90)
 			(effects
 				(font
@@ -6117,7 +6154,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 86.36 148.59 0)
 			(effects
 				(font
@@ -6189,7 +6226,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 143.51 143.51 0)
 			(effects
 				(font
@@ -6258,7 +6295,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 104.14 90)
 			(effects
 				(font
@@ -6328,7 +6365,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 55.88 146.05 0)
 			(do_not_autoplace yes)
 			(effects
@@ -6400,7 +6437,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 93.98 148.59 0)
 			(effects
 				(font
@@ -6472,7 +6509,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 71.12 148.59 0)
 			(effects
 				(font
@@ -6676,7 +6713,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 113.03 143.51 0)
 			(effects
 				(font
@@ -6756,7 +6793,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 111.506 58.674 90)
 			(effects
 				(font
@@ -6815,7 +6852,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 101.6 90)
 			(effects
 				(font
@@ -7019,7 +7056,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 86.36 90)
 			(effects
 				(font
@@ -7157,7 +7194,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 124.46 90)
 			(effects
 				(font
@@ -7295,7 +7332,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 119.38 90)
 			(effects
 				(font
@@ -7363,7 +7400,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 88.9 90)
 			(effects
 				(font
@@ -7431,7 +7468,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 129.54 90)
 			(effects
 				(font
@@ -7502,7 +7539,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 82.55 143.51 0)
 			(effects
 				(font
@@ -7574,7 +7611,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 132.08 148.59 0)
 			(effects
 				(font
@@ -7643,7 +7680,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 132.08 90)
 			(effects
 				(font
@@ -7790,7 +7827,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 109.22 90)
 			(effects
 				(font
@@ -7924,7 +7961,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 96.52 90)
 			(effects
 				(font
@@ -7995,7 +8032,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 135.89 143.51 0)
 			(effects
 				(font
@@ -8067,7 +8104,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 101.6 148.59 0)
 			(effects
 				(font
@@ -8139,7 +8176,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 109.22 148.59 0)
 			(effects
 				(font
@@ -8208,7 +8245,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 114.3 90)
 			(effects
 				(font
@@ -8554,7 +8591,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 124.46 148.59 0)
 			(effects
 				(font
@@ -8626,7 +8663,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 116.84 148.59 0)
 			(effects
 				(font
@@ -8834,7 +8871,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 74.93 143.51 0)
 			(effects
 				(font
@@ -8903,7 +8940,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 111.76 90)
 			(effects
 				(font
@@ -8971,7 +9008,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 99.06 90)
 			(effects
 				(font
@@ -9042,7 +9079,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 120.65 143.51 0)
 			(effects
 				(font
@@ -9111,7 +9148,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 83.82 90)
 			(effects
 				(font
@@ -9248,7 +9285,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 139.7 148.59 0)
 			(effects
 				(font
@@ -9328,7 +9365,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 102.616 58.674 90)
 			(effects
 				(font
@@ -9390,7 +9427,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 105.41 143.51 0)
 			(effects
 				(font
@@ -9459,7 +9496,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 127 90)
 			(effects
 				(font
@@ -9527,7 +9564,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 93.98 90)
 			(effects
 				(font
@@ -9595,7 +9632,7 @@
 				)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "470"
 			(at 49.53 106.68 90)
 			(effects
 				(font
@@ -9666,7 +9703,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 97.79 143.51 0)
 			(effects
 				(font
@@ -9886,7 +9923,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 93.726 58.674 90)
 			(effects
 				(font
@@ -9948,7 +9985,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "4700p"
 			(at 90.17 143.51 0)
 			(effects
 				(font
@@ -10002,7 +10039,7 @@
 	)
 	(sheet
 		(at 228.6 132.08)
-		(size 12.7 7.62)
+		(size 16.51 7.62)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -10050,6 +10087,26 @@
 				(justify left)
 			)
 			(uuid "4f5efbdd-8487-419b-bf8a-49cdd1f5cdbc")
+		)
+		(pin "USB_DN" bidirectional
+			(at 245.11 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "f9d001d3-7d10-4b59-a56a-0786a6ad0b2b")
+		)
+		(pin "USB_DP" bidirectional
+			(at 245.11 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "66d8775b-3889-40fe-9b2f-20a13e62907b")
 		)
 		(instances
 			(project "bd1"
