@@ -85,11 +85,11 @@ points:
     thumbfan:
       anchor:
         ref: matrix_inner_bottom
-        shift: [-10, -26]
-        rotate: -25
+        shift: [-8, -26]
+        rotate: -17
       rows:
         thumb:
-          key.bind: [1,2,1,2]
+          bind: [1,1,1,2]
       columns:
         near:
           key.spread: cx
@@ -97,12 +97,16 @@ points:
             thumb:
               keynet: /near_thumb
         home:
-          key.spread: cx
+          key.splay: -3
+          key.spread: cx+0.5
+          key.stagger: -0.5
           key.row_overrides:
             thumb:
               keynet: /home_thumb
         far:
-          key.spread: cx
+          key.splay: -3
+          key.spread: cx+0.5
+          key.stagger: -0.5
           key.row_overrides:
             thumb:
               keynet: /far_thumb
@@ -110,31 +114,36 @@ outlines:
   raw:
     - what: rectangle
       where: /^matrix_.*/
+      operation: add
+      size: [cx, cy]
+      bound: true
     - what: rectangle
       where: /^thumbfan_.*/
       operation: add
+      size: [cx, cy]
+      bound: true
     - what: polygon
       operation: add
       points: 
         - ref: matrix_pinky_bottom
           shift: [0,-cy/2-1]
         - ref: thumbfan_far_thumb
-          # shift: [0   , cy/2]
+        - ref: matrix_inner_bottom
+          shift: [23, -30]
         - ref: matrix_inner_top
-          shift: [20.81446479999999, 1.5+cy/2]
+          shift: [23, 1+cy/2]
         - ref: matrix_index_top
-          shift: [0, 1.5+cy/2]
+          shift: [0, 1+cy/2]
         # - ref: matrix_inner_bottom
         #   shift: [cx/2,cy/2+1]
         - ref: matrix_index_bottom
         - ref: matrix_pinky_home
   cutout:
     - what: outline
-      where: undefined
       name: raw
+      operation: add
       fillet: 3
     - what: outline
-      where: undefined
       name: raw
       operation: add
       fillet: 2
