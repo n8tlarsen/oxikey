@@ -1,16 +1,6 @@
 points:
   key:
     padding: cy
-    footprints:
-      keychoc:
-        type: choc
-        nets:
-          from: =keynet
-          to: GND
-        params:
-          hotswap: true
-          reverse: true
-          keycaps: true
   zones:
     matrix:
       anchor:
@@ -25,63 +15,63 @@ points:
         outer:
           key.spread: cx
           key.splay: 6
-          key.row_overrides:
+          rows:
             bottom:
-              keynet: /outer_bottom
+              net: /outer_bottom
             home:
-              keynet: /outer_home
+              net: /outer_home
             top:
-              keynet: /outer_top
+              net: /outer_top
         pinky:
           key.spread: cx
-          key.row_overrides:
+          rows:
             bottom:
-              keynet: /pinky_bottom
+              net: /pinky_bottom
             home:
-              keynet: /pinky_home
+              net: /pinky_home
             top:
-              keynet: /pinky_top
+              net: /pinky_top
         ring:
           key.spread: cx+0.5
           key.splay: -3
           key.stagger: 15
-          key.row_overrides:
+          rows:
             bottom:
-              keynet: /ring_bottom
+              net: /ring_bottom
             home:
-              keynet: /ring_home
+              net: /ring_home
             top:
-              keynet: /ring_top
+              net: /ring_top
         middle:
           key.spread: cx+0.5
           key.splay: -3
           key.stagger: 5
-          key.row_overrides:
+          rows:
             bottom:
-              keynet: /middle_bottom
+              net: /middle_bottom
             home:
-              keynet: /middle_home
+              net: /middle_home
             top:
-              keynet: /middle_top
+              net: /middle_top
         index:
           key.spread: cx
           key.stagger: -7
-          key.row_overrides:
+          rows:
             bottom:
-              keynet: /index_bottom
+              net: /index_bottom
             home:
-              keynet: /index_home
+              net: /index_home
             top:
-              keynet: /index_top
+              net: /index_top
         inner:
           key.spread: cx
-          key.row_overrides:
+          rows:
             bottom:
-              keynet: /inner_bottom
+              net: /inner_bottom
             home:
-              keynet: /inner_home
+              net: /inner_home
             top:
-              keynet: /inner_top
+              net: /inner_top
     thumbfan:
       anchor:
         ref: matrix_inner_bottom
@@ -93,23 +83,23 @@ points:
       columns:
         near:
           key.spread: cx
-          key.row_overrides:
+          rows:
             thumb:
-              keynet: /near_thumb
+              net: /near_thumb
         home:
           key.splay: -3
           key.spread: cx+0.5
           key.stagger: -0.5
-          key.row_overrides:
+          rows:
             thumb:
-              keynet: /home_thumb
+              net: /home_thumb
         far:
           key.splay: -3
           key.spread: cx+0.5
           key.stagger: -0.5
-          key.row_overrides:
+          rows:
             thumb:
-              keynet: /far_thumb
+              net: /far_thumb
 outlines:
   raw:
     - what: rectangle
@@ -158,42 +148,19 @@ outlines:
       operation: add
       size: [cx-0.5, cy-0.5]
       bound: false
-
-  # raw:
-  #   - type: keys
-  #     side: left
-  #     size: [cx, cx]
-  #   - operation: add
-  #     type: polygon
-  #     points: 
-  #       - ref: matrix_pinky_bottom
-  #         shift: [0,-cy/2-1]
-  #       - ref: thumbfan_far_thumb
-  #         # shift: [0   , cy/2]
-  #       - ref: matrix_inner_top
-  #         shift: [20.81446479999999, 1.5+cy/2]
-  #       - ref: matrix_index_top
-  #         shift: [0, 1.5+cy/2]
-  #       # - ref: matrix_inner_bottom
-  #       #   shift: [cx/2,cy/2+1]
-  #       - ref: matrix_index_bottom
-  #       - ref: matrix_pinky_home
-  # cutout:
-  #   - type: outline
-  #     name: raw
-  #     fillet: 3
-  #   - operation: add
-  #     type: outline
-  #     name: raw
-  #     fillet: 2
-  # keycap_outlines:
-  #   - type: keys
-  #     side: left
-  #     size: [cx-0.5, cy-0.5]
-  #     bound: false
-
 pcbs:
   bd1:
     outlines:
       bd:
         outline: cutout
+    footprints:
+    - where: true
+      what: choc
+      params:
+        from: "{{net}}"
+        to: GND
+        hotswap: true
+        reverse: true
+        keycaps: true
+    template: kicad8
+
