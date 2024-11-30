@@ -25,6 +25,7 @@ Cargo.lock
 _autosave-*
 *auto_save*
 *.tmp
+**/tmp*/
 *-save.pro
 *-save.kicad_pcb
 fp-info-cache
